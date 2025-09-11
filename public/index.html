@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JSON Harmonizer</title>
+    <link rel="stylesheet" href="assets/lib/fontawesome/css/all.min.css" />
+    <link rel="stylesheet" href="assets/lib/jsoneditor/jsoneditor.min.css" />
+    <link rel="stylesheet" href="assets/css/common.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Hotel Data JSON Harmonizer</h1>
+      <div id="alert-schema-info">
+        <i class="fa fa-info-circle" style="margin-right: 4px"></i>
+        <b>Note:</b> The schema in this demo is predefined for hotel data in <code>schema.js</code>. You can paste JSON in different
+        formats, and the harmonizer will attempt to map them to the schema.
+      </div>
+      <div class="inputs-section">
+        <div class="json-inputs" id="json-inputs"></div>
+        <button class="add-btn" id="add-btn"><i class="fa fa-plus"></i> Add</button>
+        <div class="query-input-section" style="display: flex; align-items: center; gap: 12px; margin: 18px 0 10px 0">
+          <label for="query-input" style="font-weight: 500; color: #374151; font-size: 15px">Query Harmonized Property</label>
+          <input
+            type="text"
+            id="query-input"
+            placeholder="e.g. hotelName or price"
+            style="flex: 1; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 15px; background: #f8fafc"
+          />
+        </div>
+        <button class="harmonize-btn" id="harmonize-btn">Harmonize and Query</button>
+      </div>
+      <div class="query-result-section" style="margin-bottom: 24px">
+        <h2 style="margin-top: 0; font-size: 20px; color: #2d3748">Query Result</h2>
+        <div
+          id="query-result-box"
+          style="
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            padding: 12px 16px;
+            min-height: 38px;
+            font-size: 15px;
+            color: #374151;
+            white-space: pre-wrap;
+          "
+        ></div>
+      </div>
+      <div class="viewer-section">
+        <h2 style="margin-top: 0; font-size: 20px; color: #2d3748">Harmonized JSON</h2>
+        <div id="json-viewer"></div>
+      </div>
+    </div>
+    <script src="assets/js/jquery-3.7.1.min.js"></script>
+    <script src="assets/lib/jsoneditor/jsoneditor.min.js"></script>
+    <script src="assets/js/common.js"></script>
+  </body>
+</html>

@@ -1,5 +1,5 @@
 {
-  "watch": ["config", "controllers", "models", "middleware", "lib", "utils"],
+  "watch": ["*.js"],
   "ext": "js",
   "exec": "node --trace-warnings index.js"
 }
