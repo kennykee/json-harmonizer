@@ -20,42 +20,43 @@ app.get("/", (req, res) => {
 app.post("/harmonize", async (req, res) => {
   try {
     const { jsonList, query } = req.body;
+
     if (!Array.isArray(jsonList) || typeof query !== "string") {
       return res.status(400).json({ success: false, message: "Invalid input" });
     }
 
-    // Parse all JSON strings
-    let parsedList = [];
-    for (const str of jsonList) {
+    // Parse and normalize input keys
+    const parsedList = jsonList.map((str) => {
       try {
-        parsedList.push(JSON.parse(str));
-      } catch (e) {
-        return res.status(400).json({ success: false, message: "Invalid JSON in list" });
+        return keysToLower(JSON.parse(str));
+      } catch {
+        throw new Error("Invalid JSON in list");
       }
-    }
+    });
 
-    // Harmonize logic (for demo: merge all objects into one, shallow)
+    // Harmonize: shallow merge
     const harmonized = Object.assign({}, ...parsedList);
     const harmonizedJson = JSON.stringify(harmonized, null, 2);
 
-    // Query logic (for demo: just echo the query and count keys)
-    let queryResult = "";
-    if (query.trim()) {
-      queryResult = `Query: ${query} | Harmonized keys: ${Object.keys(harmonized).length}`;
-    }
+    // Demo query logic
+    const queryResult = query.trim() ? `Query: ${query} | Harmonized keys: ${Object.keys(harmonized).length}` : "";
 
-    res.json({
-      success: true,
-      harmonizedJson,
-      queryResult,
-    });
+    res.json({ success: true, harmonizedJson, queryResult });
   } catch (err) {
-    res.status(500).json({ success: false, message: "Server error" });
+    res.status(400).json({ success: false, message: err.message });
   }
 });
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
+
+// Recursively lowercase keys in objects/arrays
+const keysToLower = (obj) =>
+  Array.isArray(obj)
+    ? obj.map(keysToLower)
+    : obj && typeof obj === "object"
+    ? Object.fromEntries(Object.entries(obj).map(([k, v]) => [k.toLowerCase(), keysToLower(v)]))
+    : obj;
 
 export default app;

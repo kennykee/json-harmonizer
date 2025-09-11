@@ -24,7 +24,7 @@
           <input
             type="text"
             id="query-input"
-            placeholder="e.g. hotelName or price"
+            placeholder="Query DSL e.g. { hotelId: [1,2,3], destinationId: [1,2,3] }"
             style="flex: 1; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 15px; background: #f8fafc"
           />
         </div>
@@ -32,19 +32,7 @@
       </div>
       <div class="query-result-section" style="margin-bottom: 24px">
         <h2 style="margin-top: 0; font-size: 20px; color: #2d3748">Query Result</h2>
-        <div
-          id="query-result-box"
-          style="
-            background: #f8fafc;
-            border: 1px solid #cbd5e1;
-            border-radius: 6px;
-            padding: 12px 16px;
-            min-height: 38px;
-            font-size: 15px;
-            color: #374151;
-            white-space: pre-wrap;
-          "
-        ></div>
+        <div id="query-result-box"></div>
       </div>
       <div class="viewer-section">
         <h2 style="margin-top: 0; font-size: 20px; color: #2d3748">Harmonized JSON</h2>
