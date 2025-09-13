@@ -36,9 +36,9 @@ describe("Hotel Data Harmonization", () => {
     let jsonList;
 
     beforeAll(() => {
-      const acmePath = "./test/acme.json";
-      const paperfliesPath = "./test/paperflies.json";
-      const patagoniaPath = "./test/patagonia.json";
+      const acmePath = "./public/assets/sample/acme.json";
+      const paperfliesPath = "./public/assets/sample/paperflies.json";
+      const patagoniaPath = "./public/assets/sample/patagonia.json";
       jsonList = [fs.readFileSync(acmePath, "utf8"), fs.readFileSync(paperfliesPath, "utf8"), fs.readFileSync(patagoniaPath, "utf8")];
     });
 

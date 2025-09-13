@@ -6,7 +6,7 @@ export function loadAndHarmonize() {
   try {
     const filePaths = ["acme.json", "paperflies.json", "patagonia.json"];
     const jsonList = filePaths.map((filePath) => {
-      filePath = path.join(process.cwd(), "test", filePath);
+      filePath = path.join(process.cwd(), "public", "assets", "sample", filePath);
 
       try {
         return fs.readFileSync(filePath, "utf8");

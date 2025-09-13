@@ -1,44 +1,59 @@
-const jsonInputsContainer = document.getElementById("json-inputs");
-const addBtn = document.getElementById("add-btn");
-const harmonizeBtn = document.getElementById("harmonize-btn");
-let inputCount = 3;
+$(function () {
+  /* Load sample */
+  var files = ["acme.json", "paperflies.json", "patagonia.json"];
+  var loaded = 0;
+  $.each(files, function (idx, file) {
+    fetch("assets/sample/" + file)
+      .then((response) => {
+        return response.text();
+      })
+      .then((data) => {
+        $("#json-input-" + idx).val(data);
+      });
+  });
+});
+
+var $jsonInputsContainer = $("#json-inputs");
+var $addBtn = $("#add-btn");
+var $harmonizeBtn = $("#harmonize-btn");
+var inputCount = 3;
 
 function createInputBox(index) {
-  const row = document.createElement("div");
-  row.className = "json-input-row";
-  const textarea = document.createElement("textarea");
-  textarea.placeholder = `Paste JSON #${index + 1}`;
-  textarea.id = `json-input-${index}`;
-  row.appendChild(textarea);
-  return row;
+  var $row = $("<div>").addClass("json-input-row");
+  var $textarea = $("<textarea>")
+    .attr("placeholder", `Paste JSON #${index + 1}`)
+    .attr("id", `json-input-${index}`);
+  $row.append($textarea);
+  return $row;
 }
 
 function renderInputs() {
-  jsonInputsContainer.innerHTML = "";
-  for (let i = 0; i < inputCount; i++) {
-    jsonInputsContainer.appendChild(createInputBox(i));
+  $jsonInputsContainer.empty();
+  for (var i = 0; i < inputCount; i++) {
+    $jsonInputsContainer.append(createInputBox(i));
   }
 }
 
-addBtn.addEventListener("click", () => {
+$addBtn.on("click", function () {
   inputCount++;
   renderInputs();
 });
 
 renderInputs();
 
-// JSON Viewer
-const viewer = new JSONEditor(document.getElementById("json-viewer"), {
+var viewer = new JSONEditor(document.getElementById("json-viewer"), {
   mode: "view",
   mainMenuBar: false,
   navigationBar: false,
   statusBar: false,
 });
 
-harmonizeBtn.addEventListener("click", () => {
-  const jsons = [];
-  for (let i = 0; i < inputCount; i++) {
-    const val = document.getElementById(`json-input-${i}`).value.trim();
+$harmonizeBtn.on("click", function () {
+  var jsons = [];
+  for (var i = 0; i < inputCount; i++) {
+    var val = $("#json-input-" + i)
+      .val()
+      .trim();
     if (val) {
       try {
         jsons.push(JSON.parse(val));
@@ -48,6 +63,5 @@ harmonizeBtn.addEventListener("click", () => {
       }
     }
   }
-  // For demo, just merge all objects into an array
   viewer.set(jsons);
 });
