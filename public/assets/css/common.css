@@ -75,7 +75,6 @@ textarea {
   background: #f8fafc;
   border-radius: 8px;
   padding: 20px;
-  min-height: 200px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 .query-result-section {
@@ -106,9 +105,6 @@ textarea {
   color: #374151;
   white-space: pre-wrap;
 }
-#json-viewer {
-  min-height: 180px;
-}
 #alert-schema-info {
   background: #fef3c7;
   color: #92400e;
@@ -117,4 +113,64 @@ textarea {
   border-radius: 6px;
   margin: 18px 0 28px 0;
   font-size: 16px;
+}
+.swagger-doc {
+  margin: 24px auto 0 auto;
+  padding: 28px 32px 22px 32px;
+  background: linear-gradient(90deg, #f8fafc 60%, #e0e7ef 100%);
+  border-radius: 14px;
+  box-shadow: 0 2px 12px 0 rgba(30, 41, 59, 0.07);
+  font-family: "Inter", "Segoe UI", Arial, sans-serif;
+}
+.post-label {
+  background: #2563eb;
+  color: #fff;
+  padding: 2px 10px 2px 10px;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+.swagger-doc {
+  .endpoint {
+    font-size: 18px;
+    font-weight: 600;
+    color: #22223b;
+  }
+  .description {
+    color: #334155;
+    font-size: 15px;
+    margin-bottom: 10px;
+  }
+  .request-body {
+    background: #f3f4f6;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 14px;
+    overflow-x: auto;
+    margin-bottom: 10px;
+    color: #334155;
+  }
+  .response-body {
+    background: #f3f4f6;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 14px;
+    overflow-x: auto;
+    margin-bottom: 10px;
+    color: #334155;
+  }
+}
+.github-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background-color: #24292f;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: background-color 0.2s;
 }

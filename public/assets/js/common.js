@@ -11,6 +11,8 @@ $(function () {
         $("#json-input-" + idx).val(data);
       });
   });
+
+  /* Trigger harmonize */
 });
 
 var $jsonInputsContainer = $("#json-inputs");

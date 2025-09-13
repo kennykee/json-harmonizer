@@ -10,7 +10,7 @@
   </head>
   <body>
     <div class="container">
-      <h1>Hotel Data JSON Harmonizer</h1>
+      <h1>JSON Harmonizer</h1>
       <div id="alert-schema-info">
         <i class="fa fa-info-circle" style="margin-right: 4px"></i>
         <b>Note:</b> The schema in this demo is predefined for hotel data in <code>schema.js</code>. You can paste JSON in different
@@ -41,67 +41,24 @@
         <h2 style="margin-top: 0; font-size: 20px; color: #2d3748">Harmonized and Filtered JSON</h2>
         <div id="json-viewer"></div>
       </div>
-      <div
-        class="swagger-doc"
-        style="
-          margin: 24px auto 0 auto;
-          padding: 28px 32px 22px 32px;
-          background: linear-gradient(90deg, #f8fafc 60%, #e0e7ef 100%);
-          border-radius: 14px;
-          box-shadow: 0 2px 12px 0 rgba(30, 41, 59, 0.07);
-          font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
-        "
-      >
+      <div class="swagger-doc">
         <h2 style="margin-top: 0; font-size: 20px; color: #2d3748">REST API</h2>
         <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px">
-          <span
-            style="
-              background: #2563eb;
-              color: #fff;
-              padding: 2px 10px 2px 10px;
-              border-radius: 6px;
-              font-size: 15px;
-              font-weight: 600;
-              letter-spacing: 0.5px;
-            "
-            >POST</span
-          >
-          <span style="font-size: 18px; font-weight: 600; color: #22223b">/harmonize</span>
+          <span class="post-label">POST</span>
+          <span class="endpoint">/harmonize</span>
         </div>
-        <div style="color: #334155; font-size: 15px; margin-bottom: 10px">
-          Harmonize and filter hotel data from multiple JSON sources.
-        </div>
+        <div class="description">Harmonize and filter hotel data from multiple JSON sources.</div>
         <div style="margin-bottom: 8px"><b>Base URL: </b> Domain in this page</div>
         <div style="margin-bottom: 8px"><b>Request Body (application/json):</b></div>
-        <pre
-          style="
-            background: #f3f4f6;
-            border-radius: 8px;
-            padding: 12px 16px;
-            font-size: 14px;
-            overflow-x: auto;
-            margin-bottom: 10px;
-            color: #334155;
-          "
-        >
+        <pre class="request-body">
 {
   "jsonList": ["&lt;stringified JSON&gt;", ...],
   "ids": "1,2,3",              // optional, comma-separated hotel ids
   "destinationIds": "100,200"  // optional, comma-separated destination ids
-}</pre
-        >
+}
+        </pre>
         <div style="margin-bottom: 8px"><b>Response (application/json):</b></div>
-        <pre
-          style="
-            background: #f3f4f6;
-            border-radius: 8px;
-            padding: 12px 16px;
-            font-size: 14px;
-            overflow-x: auto;
-            margin-bottom: 10px;
-            color: #334155;
-          "
-        >
+        <pre class="response-body">
 {
   "success": true,
   "data": "[ ...harmonized hotels as JSON... ]"
@@ -110,40 +67,13 @@
 {
   "success": false,
   "message": "Error message"
-}</pre
-        >
+}
+        </pre>
         <div style="font-size: 13px; color: #64748b">Try it with the UI above or use <b>curl</b> / Postman for API integration.</div>
       </div>
       <div style="display: flex; justify-content: center; margin: 24px 0 12px 0">
-        <a
-          href="https://github.com/kennykee/json-harmonizer"
-          target="_blank"
-          style="
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 12px;
-            background-color: #24292f;
-            color: #ffffff;
-            font-size: 14px;
-            font-weight: 500;
-            text-decoration: none;
-            border-radius: 6px;
-            transition: background-color 0.2s;
-          "
-        >
-          <svg height="16" width="16" viewBox="0 0 16 16" fill="currentColor" style="vertical-align: middle">
-            <path
-              fill-rule="evenodd"
-              d="M8 0C3.58 0 0 3.58 0 8a8 8 0 005.47 7.59c.4.07.55-.17.55-.38 
-             0-.19-.01-.82-.01-1.49-2 .37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 
-             1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 
-             0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.13 0 0 .67-.21 2.2.82a7.6 7.6 0 012-.27c.68 0 1.36.09 2 
-             .27 1.53-1.03 2.2-.82 2.2-.82.44 1.11.16 1.93.08 2.13.51.56.82 1.28.82 2.15 
-             0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.19 
-             0 .21.15.46.55.38A8.001 8.001 0 0016 8c0-4.42-3.58-8-8-8z"
-            ></path>
-          </svg>
+        <a class="github-link" target="_blank" href="https://github.com/kennykee/json-harmonizer">
+          <i class="fab fa-github"></i>
           View on GitHub
         </a>
       </div>
