@@ -1,5 +1,6 @@
 const schema = {
   id: "id",
+  hotelid: "id",
   destinationid: "destination_id",
   name: "name",
   hotelname: "name",
@@ -7,6 +8,8 @@ const schema = {
   lat: "location.lat",
   longitude: "location.lng",
   lng: "location.lng",
+  "location.address": "location.address",
+  "location.country": "location.country",
   address: {
     key: "location.address",
     transform: (value, obj) => {
@@ -70,6 +73,29 @@ const schema = {
             description: item.description,
           }))
         : [],
+  },
+  "amenities.general[]": "amenities.general[]",
+  "amenities.room[]": "amenities.room[]",
+  "images.rooms[]": {
+    key: "images.rooms[]",
+    transform: (item) => ({
+      url: item.link || item.url, // support either link or url
+      description: item.caption || item.description,
+    }),
+  },
+  "images.site[]": {
+    key: "images.site[]",
+    transform: (item) => ({
+      url: item.link || item.url,
+      description: item.caption || item.description,
+    }),
+  },
+  "images.amenities[]": {
+    key: "images.amenities[]",
+    transform: (item) => ({
+      url: item.link || item.url,
+      description: item.caption || item.description,
+    }),
   },
   bookingconditions: {
     key: "booking_conditions",

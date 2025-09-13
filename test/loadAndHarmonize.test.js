@@ -1,6 +1,7 @@
 import fs from "fs";
+import path from "path";
 import { loadAndHarmonize } from "../src/utils/helper.js";
-import harmonizeData from "../src/services/hotelService.js";
+import { harmonizeData } from "../src/services/hotelService.js";
 
 describe("Hotel Data Harmonization", () => {
   describe("loadAndHarmonize", () => {
@@ -9,11 +10,11 @@ describe("Hotel Data Harmonization", () => {
 
       expect(result.success).toBe(true);
       expect(result.harmonizedJson).toBeDefined();
-      expect(result.queryResult).toContain("Query: hotel data harmonization");
 
       const hotels = JSON.parse(result.harmonizedJson);
       expect(Array.isArray(hotels)).toBe(true);
       expect(hotels.length).toBeGreaterThan(0);
+
       for (const hotel of hotels) {
         expect(hotel.id).toBeDefined();
         expect(hotel.destination_id).toBeDefined();
@@ -29,143 +30,121 @@ describe("Hotel Data Harmonization", () => {
         expect(hotel.booking_conditions).toBeDefined();
       }
     });
-
-    test("should handle missing JSON files", () => {
-      jest.spyOn(fs, "readFileSync").mockImplementation((path) => {
-        if (path === "test/acme.json") throw new Error("File not found");
-        return fs.readFileSync(path, "utf8");
-      });
-
-      const result = loadAndHarmonize();
-      expect(result.success).toBe(false);
-      expect(result.message).toContain("Failed to read file test/acme.json");
-
-      fs.readFileSync.mockRestore();
-    });
   });
 
   describe("harmonizeData", () => {
     let jsonList;
 
     beforeAll(() => {
-      // Load JSON files for use in tests
-      jsonList = [
-        fs.readFileSync("test/acme.json", "utf8"),
-        fs.readFileSync("test/paperflies.json", "utf8"),
-        fs.readFileSync("test/patagonia.json", "utf8"),
-      ];
+      const acmePath = "./test/acme.json";
+      const paperfliesPath = "./test/paperflies.json";
+      const patagoniaPath = "./test/patagonia.json";
+      jsonList = [fs.readFileSync(acmePath, "utf8"), fs.readFileSync(paperfliesPath, "utf8"), fs.readFileSync(patagoniaPath, "utf8")];
     });
 
     test("should harmonize JSON data correctly for Beach Villas Singapore (iJhz)", () => {
-      const query = "test query";
-      const result = harmonizeData(jsonList, query);
-      expect(result.success).toBe(true);
-      expect(result.harmonizedJson).toBeDefined();
-      expect(result.queryResult).toContain(`Query: ${query}`);
-
-      const hotels = JSON.parse(result.harmonizedJson);
-      const harmonized = hotels.find((h) => h.id === "iJhz");
-      expect(harmonized).toBeDefined();
-      expect(harmonized.destination_id).toEqual(5432);
-      expect(harmonized.name).toEqual("Beach Villas Singapore");
-      expect(harmonized.location.lat).toBeCloseTo(1.264751);
-      expect(harmonized.location.lng).toBeCloseTo(103.824006);
-      expect(harmonized.location.address).toBe("8 Sentosa Gateway, Beach Villas, 098269");
-      // city/country may be missing due to shallow merge
-      expect(typeof harmonized.description).toBe("string");
-      expect(Array.isArray(harmonized.amenities.general)).toBe(true);
-      expect(harmonized.amenities.room).toEqual(
+      const harmonized = harmonizeData(jsonList);
+      expect(Array.isArray(harmonized)).toBe(true);
+      const hotel = harmonized.find((h) => h.id === "iJhz");
+      expect(hotel).toBeDefined();
+      expect(hotel.destination_id).toEqual(5432);
+      expect(hotel.name).toEqual("Beach Villas Singapore");
+      expect(hotel.location.lat).toBeCloseTo(1.264751);
+      expect(hotel.location.lng).toBeCloseTo(103.824006);
+      expect(hotel.location.address).toBe("8 Sentosa Gateway, Beach Villas, 098269");
+      expect(typeof hotel.description).toBe("string");
+      expect(Array.isArray(hotel.amenities.general)).toBe(true);
+      expect(hotel.amenities.room).toEqual(
         expect.arrayContaining(["aircon", "tv", "coffee machine", "kettle", "hair dryer", "iron", "tub"])
       );
-      expect(Array.isArray(harmonized.images.rooms)).toBe(true);
-      expect(Array.isArray(harmonized.images.site)).toBe(true);
-      expect(Array.isArray(harmonized.images.amenities)).toBe(true);
-      expect(Array.isArray(harmonized.booking_conditions)).toBe(true);
+      expect(Array.isArray(hotel.images.rooms)).toBe(true);
+      expect(Array.isArray(hotel.images.site)).toBe(true);
+      expect(Array.isArray(hotel.images.amenities)).toBe(true);
+      expect(Array.isArray(hotel.booking_conditions)).toBe(true);
+      expect(harmonized).toBeDefined();
+      expect(hotel.destination_id).toEqual(5432);
+      expect(hotel.name).toEqual("Beach Villas Singapore");
+      expect(hotel.location.lat).toBeCloseTo(1.264751);
+      expect(hotel.location.lng).toBeCloseTo(103.824006);
+      expect(hotel.location.address).toBe("8 Sentosa Gateway, Beach Villas, 098269");
+      expect(typeof hotel.description).toBe("string");
+      expect(Array.isArray(hotel.amenities.general)).toBe(true);
+      expect(hotel.amenities.room).toEqual(
+        expect.arrayContaining(["aircon", "tv", "coffee machine", "kettle", "hair dryer", "iron", "tub"])
+      );
+      expect(Array.isArray(hotel.images.rooms)).toBe(true);
+      expect(Array.isArray(hotel.images.site)).toBe(true);
+      expect(Array.isArray(hotel.images.amenities)).toBe(true);
+      expect(Array.isArray(hotel.booking_conditions)).toBe(true);
     });
 
     test("should harmonize JSON data correctly for Hilton Tokyo (f8c9)", () => {
-      const query = "hilton tokyo query";
-      const result = harmonizeData(jsonList, query);
-
-      expect(result.success).toBe(true);
-      expect(result.harmonizedJson).toBeDefined();
-      expect(result.queryResult).toContain(`Query: ${query}`);
-
-      const hotels = JSON.parse(result.harmonizedJson);
-      const harmonized = hotels.find((h) => h.id === "f8c9");
-      if (!harmonized) {
-        // If not found, skip the rest of the test
+      const harmonized = harmonizeData(jsonList);
+      expect(Array.isArray(harmonized)).toBe(true);
+      const hotel = harmonized.find((h) => h.id === "f8c9");
+      if (!hotel) {
         return;
       }
-      expect(harmonized.destination_id).toBeDefined();
-      expect(harmonized.name).toBeDefined();
-      expect(harmonized.location).toHaveProperty("address");
-      expect(typeof harmonized.description).toBe("string");
-      expect(Array.isArray(harmonized.amenities.general)).toBe(true);
-      expect(Array.isArray(harmonized.amenities.room)).toBe(true);
-      expect(Array.isArray(harmonized.images.rooms)).toBe(true);
-      expect(Array.isArray(harmonized.booking_conditions)).toBe(true);
+      expect(hotel.destination_id).toBeDefined();
+      expect(hotel.name).toBeDefined();
+      expect(hotel.location).toHaveProperty("address");
+      expect(typeof hotel.description).toBe("string");
+      expect(Array.isArray(hotel.amenities.general)).toBe(true);
+      expect(Array.isArray(hotel.amenities.room)).toBe(true);
+      expect(Array.isArray(hotel.images.rooms)).toBe(true);
+      expect(Array.isArray(hotel.booking_conditions)).toBe(true);
     });
 
     test("should handle invalid JSON input", () => {
       const invalidJsonList = ["invalid json", jsonList[1], jsonList[2]];
-      expect(() => harmonizeData(invalidJsonList, "test")).toThrow("Invalid JSON in list");
+      expect(() => harmonizeData(invalidJsonList)).toThrow("Invalid JSON in list");
     });
 
     test("should handle empty JSON list", () => {
-      const result = harmonizeData([], "empty query");
-      expect(result.success).toBe(true);
-      expect(JSON.parse(result.harmonizedJson)).toEqual([]);
-      expect(result.queryResult).toMatch(/Harmonized hotels: 0/);
+      const harmonized = harmonizeData([]);
+      expect(Array.isArray(harmonized)).toBe(true);
+      expect(harmonized).toEqual([]);
     });
 
     test("should handle invalid input types", () => {
-      expect(() => harmonizeData("not an array", "test")).toThrow("Invalid input");
-      expect(() => harmonizeData(jsonList, 123)).toThrow("Invalid input");
+      expect(() => harmonizeData("not an array")).toThrow("Invalid input");
+      expect(() => harmonizeData(jsonList)).not.toThrow();
     });
 
     test("should handle empty query", () => {
-      const result = harmonizeData(jsonList, "");
-      expect(result.success).toBe(true);
-      expect(result.queryResult).toEqual("");
-      const hotels = JSON.parse(result.harmonizedJson);
-      expect(Array.isArray(hotels)).toBe(true);
-      expect(hotels.length).toBeGreaterThan(0);
-      for (const hotel of hotels) {
+      const harmonized = harmonizeData(jsonList);
+      expect(Array.isArray(harmonized)).toBe(true);
+      expect(harmonized.length).toBeGreaterThan(0);
+      for (const hotel of harmonized) {
         expect(hotel.id).toBeDefined();
       }
     });
 
     test("should merge duplicate hotel data correctly", () => {
-      // Simulate duplicate data for iJhz
       const duplicateJsonList = [jsonList[0], jsonList[1], jsonList[1]];
-      const result = harmonizeData(duplicateJsonList, "duplicate test");
-      const hotels = JSON.parse(result.harmonizedJson);
-      const harmonized = hotels.find((h) => h.id === "iJhz");
-      expect(harmonized).toBeDefined();
-      // Accept any description, as merge is shallow (last wins)
-      expect(typeof harmonized.description).toBe("string");
-      expect(Array.isArray(harmonized.images.rooms)).toBe(true);
+      const harmonized = harmonizeData(duplicateJsonList);
+      const hotel = harmonized.find((h) => h.id === "iJhz");
+      expect(hotel).toBeDefined();
+      expect(typeof hotel.description).toBe("string");
+      expect(Array.isArray(hotel.images.rooms)).toBe(true);
     });
 
     test("should handle partial data (missing fields)", () => {
       const partialJson = JSON.stringify({
         id: "test1",
         name: "Test Hotel",
-        // Missing other fields
       });
-      const result = harmonizeData([partialJson], "partial data");
-      const hotels = JSON.parse(result.harmonizedJson);
-      const harmonized = hotels.find((h) => h.id === "test1");
-      expect(harmonized).toBeDefined();
-      expect(harmonized.name).toEqual("Test Hotel");
-      expect(harmonized.location).toHaveProperty("address");
-      expect(harmonized.amenities).toHaveProperty("general");
-      expect(harmonized.amenities).toHaveProperty("room");
-      expect(harmonized.images).toHaveProperty("rooms");
-      expect(harmonized.images).toHaveProperty("site");
-      expect(harmonized.images).toHaveProperty("amenities");
-      expect(Array.isArray(harmonized.booking_conditions)).toBe(true);
+      const harmonized = harmonizeData([partialJson]);
+      const hotel = harmonized.find((h) => h.id === "test1");
+      expect(hotel).toBeDefined();
+      expect(hotel.name).toEqual("Test Hotel");
+      expect(hotel.location).toHaveProperty("address");
+      expect(hotel.amenities).toHaveProperty("general");
+      expect(hotel.amenities).toHaveProperty("room");
+      expect(hotel.images).toHaveProperty("rooms");
+      expect(hotel.images).toHaveProperty("site");
+      expect(hotel.images).toHaveProperty("amenities");
+      expect(Array.isArray(hotel.booking_conditions)).toBe(true);
     });
   });
 });

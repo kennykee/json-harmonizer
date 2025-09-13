@@ -1,7 +1,7 @@
 {
   "name": "jsonharmonizer",
   "version": "1.0.0",
-  "description": "",
+  "description": "Json harmonizer to harmonize different json formats into a common format",
   "main": "index.js",
   "scripts": {
     "dev": "nodemon --loader --trace-warnings index.js",

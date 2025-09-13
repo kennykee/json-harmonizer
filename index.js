@@ -1,9 +1,7 @@
 import dotenv from "dotenv";
 import express from "express";
 import path from "path";
-import objectMapper from "object-mapper";
-import schema from "./src/config/schema.js";
-import fs from "fs";
+import { harmonizeData } from "./src/services/hotelService.js";
 
 dotenv.config();
 
@@ -20,9 +18,29 @@ app.get("/", (req, res) => {
 
 app.post("/harmonize", async (req, res) => {
   try {
-    const { jsonList, query } = req.body;
-    const result = harmonizeData(jsonList, query);
-    res.json(result);
+    const { jsonList, ids, destinationIds } = req.body;
+    let hotels = harmonizeData(jsonList);
+
+    if (ids || destinationIds) {
+      const idSet = new Set(
+        (ids || "")
+          .split(",")
+          .map((id) => id.trim())
+          .filter((id) => id)
+      );
+      const destIdSet = new Set(
+        (destinationIds || "")
+          .split(",")
+          .map((id) => id.trim())
+          .filter((id) => id)
+      );
+      hotels = hotels.filter((hotel) => {
+        const matchId = idSet.size === 0 || idSet.has(hotel.id);
+        const matchDest = destIdSet.size === 0 || destIdSet.has(hotel.destination_id);
+        return matchId && matchDest;
+      });
+    }
+    res.json({ success: true, data: JSON.stringify(hotels) });
   } catch (err) {
     res.status(400).json({ success: false, message: err.message });
   }

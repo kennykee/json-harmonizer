@@ -20,22 +20,25 @@
         <div class="json-inputs" id="json-inputs"></div>
         <button class="add-btn" id="add-btn"><i class="fa fa-plus"></i> Add</button>
         <div class="query-input-section" style="display: flex; align-items: center; gap: 12px; margin: 18px 0 10px 0">
-          <label for="query-input" style="font-weight: 500; color: #374151; font-size: 15px">Query Harmonized Property</label>
+          <label for="filter-hotel-id" style="font-weight: 500; color: #374151; font-size: 15px">Filter by Hotel ID</label>
           <input
             type="text"
-            id="query-input"
-            placeholder="Query DSL e.g. { hotelId: [1,2,3], destinationId: [1,2,3] }"
+            id="filter-hotel-id"
+            placeholder="e.g. 1,2,3 for multiple hotel IDs"
+            style="flex: 1; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 15px; background: #f8fafc"
+          />
+          <label for="filter-destination-id" style="font-weight: 500; color: #374151; font-size: 15px">Filter by Destination ID</label>
+          <input
+            type="text"
+            id="filter-destination-id"
+            placeholder="e.g. 1,2,3 for multiple destination IDs"
             style="flex: 1; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 15px; background: #f8fafc"
           />
         </div>
-        <button class="harmonize-btn" id="harmonize-btn">Harmonize and Query</button>
-      </div>
-      <div class="query-result-section" style="margin-bottom: 24px">
-        <h2 style="margin-top: 0; font-size: 20px; color: #2d3748">Query Result</h2>
-        <div id="query-result-box"></div>
+        <button class="harmonize-btn" id="harmonize-btn">Harmonize and Filter</button>
       </div>
       <div class="viewer-section">
-        <h2 style="margin-top: 0; font-size: 20px; color: #2d3748">Harmonized JSON</h2>
+        <h2 style="margin-top: 0; font-size: 20px; color: #2d3748">Harmonized and Filtered JSON</h2>
         <div id="json-viewer"></div>
       </div>
     </div>
