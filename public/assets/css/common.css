@@ -229,3 +229,7 @@ textarea {
   justify-content: center;
   margin: 24px 0 12px 0;
 }
+#json-viewer {
+  max-height: 400px;
+  overflow: auto;
+}

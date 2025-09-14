@@ -97,7 +97,7 @@ const schema = {
       description: item.caption || item.description,
     }),
   },
-  bookingconditions: {
+  "bookingconditions[]": {
     key: "booking_conditions",
     transform: (value) => value || [],
   },
