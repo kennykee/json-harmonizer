@@ -2,6 +2,9 @@
 
 JSON Harmonizer is a Node.js/Express web app and API that harmonizes hotel data from multiple JSON sources into a unified schema. It is designed to help you map, clean, and merge hotel data from different providers, making integration and analysis easier.
 
+- **GitHub Link:** [JSON Harmonizer](https://github.com/kennykee/json-harmonizer)
+- **Demo:** [jsonharmonizer.kennykee.com](https://jsonharmonizer.kennykee.com)
+
 ## Features
 
 - Harmonizes different JSON formats into a common hotel schema
@@ -48,13 +51,55 @@ JSON Harmonizer is a Node.js/Express web app and API that harmonizes hotel data 
 
 ---
 
-## Pipeline
+## Data Pipeline
 
-1. Lowercase all source keys to harmonize source case
-2. Remove underscores to harmonize into alphanumeric
-3. Map to schema (`src/config/schema.js`)
-4. Flatten the results to prepare for merging
-5. Merge and replace only if the new value is non-null or an empty array (empty string and null are ignored)
+1. Normalize keys – convert all source keys to lowercase to simplify schema mapping and ensure case-insensitive consistency.
+2. Clean property names – remove underscores to retain only alphanumeric characters.
+3. Map to schema – select and map only the properties defined in src/config/schema.js.
+4. Flatten results – prepare the data structure for merging.
+5. Merge selectively – update existing data only if the new value is non-null or a non-empty array; ignore empty strings and null.
+
+---
+
+## System Design
+
+### Overview
+
+JSON Harmonizer is designed as a full-stack web application with a clear separation between the frontend (user interface) and backend (API and data processing). The system is optimized for harmonizing hotel data from multiple sources, both interactively via a web UI and programmatically via a REST API.
+
+### Architecture
+
+- **Frontend:**
+
+  - Built with HTML, CSS, and JavaScript (jQuery and JSONEditor).
+  - Allows users to paste or load multiple JSON sources, add more input boxes, and filter results by hotel or destination ID.
+  - Sends user input to the backend via AJAX POST requests to the `/harmonize` endpoint.
+  - Displays harmonized and filtered results using JSONEditor for easy viewing.
+
+- **Backend:**
+
+  - Node.js with Express serves static files and provides the REST API.
+  - The `/harmonize` endpoint receives JSON data, processes it using the harmonization pipeline, and returns the harmonized hotel data.
+  - Uses a schema mapping (`src/config/schema.js`) with object-mapper library to unify different source formats.
+  - Cleans and normalizes keys, flattens arrays, and merges hotel records by ID with overwrite logic via lodash.
+
+- **Data Flow:**
+  1.  User provides multiple JSON sources via the UI or API.
+  2.  The frontend sends the data to the backend `/harmonize` endpoint.
+  3.  The backend processes the data:
+      - Cleans and normalizes keys (lowercase, remove underscores)
+      - Maps to a unified schema
+      - Flattens nested arrays
+      - Merges hotel records by ID, only overwriting with non-null or empty array values
+      - Optionally filters by hotel or destination ID
+  4.  The harmonized result is returned to the frontend or API client.
+  5.  The frontend displays the result in a user-friendly JSON viewer.
+
+### Extensibility
+
+- The schema mapping can be easily updated in `src/config/schema.js` to support new data sources or fields.
+- The merge logic can be customized in `src/services/hotelService.js`.
+- The API can be extended to support additional endpoints or authentication if needed.
 
 ---
 
@@ -77,21 +122,23 @@ Harmonize and filter hotel data from multiple JSON sources.
 - **Request Body (application/json):**
   ```json
   {
-     "jsonList": ["<JSON Data Source 1>", "<JSON Data Source 2>", "<JSON Data Source 3>", ...],
-     "ids": "iJhz, SjyX, f8c9",   // optional, comma-separated hotel ids
-     "destinationIds": "100,200"  // optional, comma-separated destination ids
+    "jsonList": ["<JSON Data Source 1>", "<JSON Data Source 2>", "<JSON Data Source 3>"],
+    "ids": "iJhz, SjyX, f8c9",
+    "destinationIds": "100,200"
   }
   ```
+  - _ids_ and _destinationIds_ are optional, comma-separated hotels id and destinations id
 - **Response (application/json):**
   ```json
   {
-     "success": true,
-     "data": "[ ...harmonized hotels as JSON... ]"
+    "success": true,
+    "data": "[ ...harmonized hotels as JSON... ]"
   }
-  // or on error
+  ```
+  ```json
   {
-     "success": false,
-     "message": "Error message"
+    "success": false,
+    "message": "Error message"
   }
   ```
 

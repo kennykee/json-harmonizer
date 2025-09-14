@@ -19,7 +19,7 @@ $(async function () {
   await harmonize();
 });
 
-const viewer = new JSONEditor(document.getElementById("json-viewer"), {
+const viewer = new JSONEditor($("#json-viewer").get(0), {
   mode: "view",
   mainMenuBar: false,
   navigationBar: false,
