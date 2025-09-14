@@ -4,6 +4,9 @@ body {
   margin: 0;
   padding: 0;
 }
+.mb-2 {
+  margin-bottom: 8px;
+}
 .container {
   max-width: 900px;
   margin: 40px auto;
@@ -77,6 +80,30 @@ textarea {
   padding: 20px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
+.viewer-section h2 {
+  margin-top: 0;
+  font-size: 20px;
+  color: #2d3748;
+}
+.query-input-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 18px 0 10px 0;
+}
+.query-input-section label {
+  font-weight: 500;
+  color: #374151;
+  font-size: 15px;
+}
+.query-input-section input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 15px;
+  background: #f8fafc;
+}
 .query-result-section {
   margin-top: 10px;
   background: #f8fafc;
@@ -114,6 +141,14 @@ textarea {
   margin: 18px 0 28px 0;
   font-size: 16px;
 }
+#alert-schema-info a {
+  font-weight: bold;
+  color: #92400e;
+  text-decoration: none;
+}
+#alert-schema-info .fa {
+  margin-right: 4px;
+}
 .swagger-doc {
   margin: 24px auto 0 auto;
   padding: 28px 32px 22px 32px;
@@ -132,6 +167,17 @@ textarea {
   letter-spacing: 0.5px;
 }
 .swagger-doc {
+  h2 {
+    margin-top: 0;
+    font-size: 20px;
+    color: #2d3748;
+  }
+  .subtitle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
   .endpoint {
     font-size: 18px;
     font-weight: 600;
@@ -160,6 +206,10 @@ textarea {
     margin-bottom: 10px;
     color: #334155;
   }
+  .instruction {
+    font-size: 13px;
+    color: #64748b;
+  }
 }
 .github-link {
   display: inline-flex;
@@ -173,4 +223,9 @@ textarea {
   text-decoration: none;
   border-radius: 6px;
   transition: background-color 0.2s;
+}
+.github-container {
+  display: flex;
+  justify-content: center;
+  margin: 24px 0 12px 0;
 }

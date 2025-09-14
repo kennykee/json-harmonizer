@@ -12,52 +12,43 @@
     <div class="container">
       <h1>JSON Harmonizer</h1>
       <div id="alert-schema-info">
-        <i class="fa fa-info-circle" style="margin-right: 4px"></i>
+        <i class="fa fa-info-circle"></i>
         <b>Note:</b> The schema in this demo is predefined for hotel data in <code>schema.js</code>. You can paste JSON in different
-        formats, and the harmonizer will attempt to map them to the schema.
+        formats, and the harmonizer will attempt to map them based on the configured schema. Read documentation at
+        <a target="_blank" href="https://github.com/kennykee/json-harmonizer">GitHub</a>.
       </div>
       <div class="inputs-section">
         <div class="json-inputs" id="json-inputs"></div>
         <button class="add-btn" id="add-btn"><i class="fa fa-plus"></i> Add</button>
-        <div class="query-input-section" style="display: flex; align-items: center; gap: 12px; margin: 18px 0 10px 0">
-          <label for="filter-hotel-id" style="font-weight: 500; color: #374151; font-size: 15px">Filter by Hotel ID</label>
-          <input
-            type="text"
-            id="filter-hotel-id"
-            placeholder="e.g. 1,2,3 for multiple hotel IDs"
-            style="flex: 1; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 15px; background: #f8fafc"
-          />
-          <label for="filter-destination-id" style="font-weight: 500; color: #374151; font-size: 15px">Filter by Destination ID</label>
-          <input
-            type="text"
-            id="filter-destination-id"
-            placeholder="e.g. 1,2,3 for multiple destination IDs"
-            style="flex: 1; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 15px; background: #f8fafc"
-          />
+        <div class="query-input-section">
+          <label for="filter-hotel-id">Filter by Hotel ID</label>
+          <input type="text" id="filter-hotel-id" placeholder="e.g. iJhz, SjyX, f8c9 for multiple hotel IDs" />
+          <label for="filter-destination-id">Filter by Destination ID</label>
+          <input type="text" id="filter-destination-id" placeholder="e.g. 1,2,3 for multiple destination IDs" />
         </div>
         <button class="harmonize-btn" id="harmonize-btn">Harmonize and Filter</button>
       </div>
       <div class="viewer-section">
-        <h2 style="margin-top: 0; font-size: 20px; color: #2d3748">Harmonized and Filtered JSON</h2>
+        <h2>Harmonized and Filtered JSON</h2>
         <div id="json-viewer"></div>
       </div>
       <div class="swagger-doc">
-        <h2 style="margin-top: 0; font-size: 20px; color: #2d3748">REST API</h2>
-        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px">
+        <h2>REST API</h2>
+        <div class="subtitle">
           <span class="post-label">POST</span>
           <span class="endpoint">/harmonize</span>
         </div>
         <div class="description">Harmonize and filter hotel data from multiple JSON sources.</div>
-        <div style="margin-bottom: 8px"><b>Base URL: </b> Domain in this page</div>
-        <div style="margin-bottom: 8px"><b>Request Body (application/json):</b></div>
+        <div class="mb-2"><b>Base URL: </b> Domain in this page</div>
+        <div class="mb-2"><b>Request Body (application/json):</b></div>
         <pre class="request-body">
 {
-  "jsonList": ["&lt;stringified JSON&gt;", ...],
-  "ids": "1,2,3",              // optional, comma-separated hotel ids
+  "jsonList": ["&lt;JSON Data Source 1&gt;", "&lt;JSON Data Source 2&gt;", "&lt;JSON Data Source 3&gt;", ...],
+  "ids": "iJhz, SjyX, f8c9",   // optional, comma-separated hotel ids
   "destinationIds": "100,200"  // optional, comma-separated destination ids
 }
         </pre>
-        <div style="margin-bottom: 8px"><b>Response (application/json):</b></div>
+        <div class="mb-2"><b>Response (application/json):</b></div>
         <pre class="response-body">
 {
   "success": true,
@@ -69,9 +60,9 @@
   "message": "Error message"
 }
         </pre>
-        <div style="font-size: 13px; color: #64748b">Try it with the UI above or use <b>curl</b> / Postman for API integration.</div>
+        <div class="instruction">Try it with the UI above or use <b>curl</b> / Postman for API integration.</div>
       </div>
-      <div style="display: flex; justify-content: center; margin: 24px 0 12px 0">
+      <div class="github-container">
         <a class="github-link" target="_blank" href="https://github.com/kennykee/json-harmonizer">
           <i class="fab fa-github"></i>
           View on GitHub

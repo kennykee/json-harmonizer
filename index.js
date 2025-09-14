@@ -22,21 +22,18 @@ app.post("/harmonize", async (req, res) => {
     let hotels = harmonizeData(jsonList);
 
     if (ids || destinationIds) {
-      const idSet = new Set(
-        (ids || "")
-          .split(",")
-          .map((id) => id.trim())
-          .filter((id) => id)
-      );
-      const destIdSet = new Set(
-        (destinationIds || "")
-          .split(",")
-          .map((id) => id.trim())
-          .filter((id) => id)
-      );
+      const idArr = (ids || "")
+        .split(",")
+        .map((id) => id.trim())
+        .filter((id) => id);
+      const destIdArr = (destinationIds || "")
+        .split(",")
+        .map((id) => id.trim())
+        .filter((id) => id);
+
       hotels = hotels.filter((hotel) => {
-        const matchId = idSet.size === 0 || idSet.has(hotel.id);
-        const matchDest = destIdSet.size === 0 || destIdSet.has(hotel.destination_id);
+        const matchId = idArr.length === 0 || idArr.some((id) => hotel.id == id);
+        const matchDest = destIdArr.length === 0 || destIdArr.some((id) => hotel.destination_id == id);
         return matchId && matchDest;
       });
     }

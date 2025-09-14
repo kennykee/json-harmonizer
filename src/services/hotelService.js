@@ -1,6 +1,7 @@
 import objectMapper from "object-mapper";
 import schema from "../config/schema.js";
 import { cleanKeys } from "../utils/helper.js";
+import _ from "lodash";
 
 const harmonizeData = (jsonList) => {
   if (!Array.isArray(jsonList)) {
@@ -24,7 +25,12 @@ const harmonizeData = (jsonList) => {
     if (!hotelsById[id]) {
       hotelsById[id] = { ...hotel };
     } else {
-      hotelsById[id] = { ...hotelsById[id], ...hotel };
+      hotelsById[id] = _.mergeWith(hotelsById[id], hotel, (objValue, srcValue) => {
+        if (srcValue === null || srcValue === "") {
+          return objValue;
+        }
+        return srcValue;
+      });
     }
   }
   const mergedHotels = Object.values(hotelsById);
