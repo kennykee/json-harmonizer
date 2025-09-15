@@ -20,7 +20,6 @@ const harmonizeData = (jsonList) => {
 
   const harmonizedList = parsedList.map((item) => objectMapper(item, schema));
   const hotelsById = {};
-  console.log(harmonizedList);
 
   for (const hotel of harmonizedList) {
     const id = hotel.id;

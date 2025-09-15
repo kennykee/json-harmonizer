@@ -17,9 +17,6 @@ export function loadAndHarmonize() {
 
     const harmonized = harmonizeData(jsonList);
 
-    console.log("Harmonized JSON:");
-    console.log(JSON.stringify(harmonized));
-
     return { success: true, harmonizedJson: JSON.stringify(harmonized) };
   } catch (err) {
     console.error("Error:", err.message);
