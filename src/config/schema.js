@@ -13,10 +13,13 @@ const schema = {
   address: {
     key: "location.address",
     transform: (value, obj) => {
+      let result;
       if (typeof value === "string" && value.trim() !== "") {
-        return obj.postalcode ? `${value.trim()}, ${obj.postalcode}` : value.trim();
+        result = obj.postalcode ? `${value.trim()}, ${obj.postalcode}` : value.trim();
+      } else if (obj.postalcode) {
+        result = obj.postalcode;
       }
-      return obj.postalcode ? obj.postalcode : "";
+      return result && result.toString().trim() !== "" ? result : undefined;
     },
   },
   city: "location.city",

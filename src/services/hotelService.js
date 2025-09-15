@@ -20,6 +20,7 @@ const harmonizeData = (jsonList) => {
 
   const harmonizedList = parsedList.map((item) => objectMapper(item, schema));
   const hotelsById = {};
+  console.log(harmonizedList);
 
   for (const hotel of harmonizedList) {
     const id = hotel.id;
@@ -27,25 +28,27 @@ const harmonizeData = (jsonList) => {
     if (!hotelsById[id]) {
       hotelsById[id] = { ...hotel };
     } else {
-      hotelsById[id] = _.mergeWith(hotelsById[id], hotel, (objValue, srcValue) => {
-        if (srcValue === null || srcValue === "") {
-          return objValue;
-        }
-        // Allow overwrite if srcValue is an empty array
-        if (Array.isArray(srcValue)) {
-          if (srcValue.length === 0) {
-            return objValue;
-          } else {
-            return srcValue;
-          }
-        }
-        return srcValue;
-      });
+      hotelsById[id] = _.mergeWith(hotelsById[id] || {}, hotel, mergeNonEmpty);
     }
   }
   const mergedHotels = Object.values(hotelsById);
 
   return mergedHotels;
 };
+
+function mergeNonEmpty(objValue, srcValue) {
+  if (srcValue === null || srcValue === "") return objValue;
+
+  if (Array.isArray(srcValue)) {
+    if (srcValue.length === 0) return objValue; // skip empty array
+    return srcValue; // overwrite with non-empty array
+  }
+
+  if (_.isPlainObject(srcValue) && _.isPlainObject(objValue)) {
+    return _.mergeWith({}, objValue, srcValue, mergeNonEmpty);
+  }
+
+  return srcValue;
+}
 
 export { harmonizeData };

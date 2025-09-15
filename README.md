@@ -53,11 +53,13 @@ JSON Harmonizer is a Node.js/Express web app and API that harmonizes hotel data 
 
 ## ♾️ Data Pipeline
 
+The data is processed through the pipeline outlined below:
+
 1. Normalize keys – convert all source keys to lowercase to simplify schema mapping and ensure case-insensitive consistency.
 2. Clean property names – remove underscores to retain only alphanumeric characters.
 3. Map to schema – select and map only the properties defined in src/config/schema.js.
 4. Flatten results – prepare the data structure for merging.
-5. Merge selectively – update existing data only if the new value is non-null or a non-empty array; ignore empty strings and null.
+5. Merge selectively – update existing data only if the new value is non-null or a non-empty array; ignore empty strings and null. This rule also applies to nested properties.
 
 ---
 
@@ -90,7 +92,7 @@ JSON Harmonizer is designed as a full-stack web application with a clear separat
       - Cleans and normalizes keys (lowercase, remove underscores)
       - Maps to a unified schema
       - Flattens nested arrays
-      - Merges hotel records by ID, only overwriting with non-null or empty array values
+      - Merges hotel records by ID, only overwriting with non-null or empty array values including nested properties
       - Optionally filters by hotel or destination ID
   4.  The harmonized result is returned to the frontend or API client.
   5.  The frontend displays the result in a user-friendly JSON viewer.
@@ -162,4 +164,3 @@ Visit [http://localhost:4000](http://localhost:4000) to use the interactive web 
 
 This project is licensed under the MIT License.  
 See the [`LICENSE`](./LICENSE) file for full details.
-
