@@ -75,7 +75,7 @@ JSON Harmonizer is designed as a full-stack web application with a clear separat
 
   - Built with HTML, CSS, and JavaScript (jQuery and JSONEditor).
   - Allows users to paste or load multiple JSON sources, add more input boxes, and filter results by hotel or destination ID.
-  - Sends user input to the backend via AJAX POST requests to the `/harmonize` endpoint.
+  - Sends user input to the backend via fetch POST requests to the `/harmonize` endpoint.
   - Displays harmonized and filtered results using JSONEditor for easy viewing.
 
 - **Backend:**
@@ -102,7 +102,23 @@ JSON Harmonizer is designed as a full-stack web application with a clear separat
 - The schema mapping can be easily updated in `src/config/schema.js` to support new data sources or fields.
 - The merge logic can be customized in `src/services/hotelService.js`.
 - The API can be extended to support additional endpoints or authentication if needed.
-
+- Handling multiple data providers with separate schemas.
+   - When working with a large number of data providers, placing all definitions into a single `schema.js` file can make it:
+      - Overly large  
+      - Difficult to maintain  
+      - Prone to conflicts  
+   - Recommended approach: split schemas by provider.
+      - Instead of a monolithic schema file, create one schema per data provider.  
+      - In your `hotelService.js` business logic, you can:
+         1. Identify the provider - Use the `provider` identifier inside the `jsonList` parameter.  
+         2. Map data using the correct schema - Run the `objectMapper` call separately for each provider with its corresponding schema.  
+         3. Merge results - Combine all mapped results from different providers into a unified dataset as usual.  
+   - Benefits:
+      - Cleaner separation of logic  
+      - Easier maintainability  
+      - Reduced risk of conflicts  
+      - Flexibility to update or add providers independently
+        
 ---
 
 ## 🛈 Assumptions
@@ -164,3 +180,4 @@ Visit [http://localhost:4000](http://localhost:4000) to use the interactive web 
 
 This project is licensed under the MIT License.  
 See the [`LICENSE`](./LICENSE) file for full details.
+
